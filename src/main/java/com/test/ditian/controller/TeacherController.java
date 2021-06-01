@@ -39,7 +39,7 @@ public class TeacherController {
     @ResponseBody
     public int update() {
         long id = 2;
-        long school_id = 345;
+        long school_id = 3455;
         long teacher_code = 44478;
         Teacher teacher = new Teacher();
         teacher.setId(id);
