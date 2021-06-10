@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 public class TestGitHub {
@@ -27,15 +25,17 @@ public class TestGitHub {
         List<String> erp_diff =new ArrayList<>();// erp有
         List<String> all =new ArrayList<>(); // 都有
         // 添加车架号
-        gov122.add("1");
-        gov122.add("2");
-        gov122.add("3");
-        erp.add("2");
-        // 添加数据
+//        gov122.add("1");
 //        gov122.add("2");
-//        erp.add("1");
+//        gov122.add("3");
 //        erp.add("2");
-//        erp.add("3");
+        // 添加数据
+        gov122.add("2");
+        gov122.add("4");
+        erp.add("1");
+        erp.add("2");
+        erp.add("3");
+        // 对比
         Map<String, Integer> map =new HashMap<>(gov122.size() + erp.size());
         for (String carLicensePlate : gov122) {
             map.put(carLicensePlate, 1);
@@ -45,11 +45,11 @@ public class TestGitHub {
             if (count !=null) {
                 map.put(carLicensePlate, 3);
                 continue;
-            }else {
+            } else {
                 map.put(carLicensePlate, 2);
             }
         }
-        // 记录
+        // 记录结果
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
             switch (entry.getValue()) {
                 case 1:
@@ -64,11 +64,14 @@ public class TestGitHub {
                 default:
             }
         }
+
+        System.out.println("ok");
     }
 
     @GetMapping("/excel")
-    public static void excel() throws IOException {
+    public void excel() throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
+        // 导入数据
         for(int n=1;n<4;n++){
             ExportParams exportParams = new ExportParams("用户信息"+n,"用户信息"+n);
             Object entity = User.class;
@@ -80,20 +83,24 @@ public class TestGitHub {
                 data.add(user);
                 i++;
             }
-            // 构建map
             Map<String,Object> map = new HashMap<>();
             map.put("title",exportParams);
             map.put("entity",entity);
             map.put("data",data);
             list.add(map);
         }
-
+        // 设置导出路径
         File savefile = new File(".//temp//excel//");
         if (!savefile.exists()) {
             savefile.mkdirs();
         }
+        // 设置文件名
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        // 导出
         Workbook workbook = ExcelExportUtil.exportExcel(list, ExcelType.HSSF);
-        FileOutputStream fileOutputStream = new FileOutputStream(".//temp//excel//"+"user.xls");
+        FileOutputStream fileOutputStream = new FileOutputStream(".//temp//excel//比对结果-" + simpleDateFormat.format(date) + ".xls");
         workbook.write(fileOutputStream);
         fileOutputStream.close();
     }
