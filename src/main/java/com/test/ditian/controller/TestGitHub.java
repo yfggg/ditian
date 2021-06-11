@@ -8,9 +8,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -104,5 +103,40 @@ public class TestGitHub {
         workbook.write(fileOutputStream);
         fileOutputStream.close();
     }
+
+    @GetMapping("/download")
+    public void download( HttpServletResponse httpServletResponse) throws IOException {
+        String fileName = "比对结果-20210611.xls";
+
+        httpServletResponse.setContentType("application/octet-stream");
+        httpServletResponse.setHeader("Content-Disposition", "attachment;filename=" + new String(fileName.getBytes("UTF-8"), "ISO8859-1"));
+        byte[] buff = new byte[1024];
+        BufferedInputStream bufferedInputStream = null;
+        OutputStream outputStream = null;
+
+        try {
+            outputStream = httpServletResponse.getOutputStream();
+            bufferedInputStream = new BufferedInputStream(new FileInputStream(
+                    new File("d://" + fileName )));
+            int i = bufferedInputStream.read(buff);
+            while (i != -1) {
+                outputStream.write(buff, 0, buff.length);
+                outputStream.flush();
+                i = bufferedInputStream.read(buff);
+            }
+        } catch ( IOException e ) {
+            e.printStackTrace();
+        } finally {
+            if (bufferedInputStream != null) {
+                try {
+                    bufferedInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        System.out.println("export file finish");
+    }
+
 
 }
