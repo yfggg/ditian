@@ -1,0 +1,27 @@
+
+# 数据源配置
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    # 就是使用JDBC跟你的数据库连接的时候，你的JDBC版本与MySQL版本不兼容，MySQL的版本更高一些，在连接语句后加上“useSSL=‘true’” ，就可以连接到数据库了
+    url: jdbc:mysql://localhost:3306/ditian?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: root
+    password: root
+#  redis:
+#    host: 127.0.0.1
+#    port: 6379
+#    lettuce:
+#      pool:
+#        max-idle: 10
+#        min-idle: 0
+#        max-active: 16
+#        max-wait: -1
+
+# MyBatis
+#mybatis:
+#  # 搜索指定包别名
+#  typeAliasesPackage: com.test.ditian.domain
+#  # 配置mapper的扫描，找到所有的mapper.xml映射文件（resources目录）
+#  mapperLocations: classpath:mapper/*.xml
+#  # 加载全局的配置文件（resources目录）
+#  configLocation: classpath:mybatis/mybatis-config.xml
