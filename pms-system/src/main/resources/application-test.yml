@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    druid:
+      # 主库数据源
+      master:
+        url: jdbc:log4jdbc:mysql://${DB_HOST:192.168.6.21}:${DB_PORT:3306}/${DB_NAME:pms_ent}?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
+        username: ${DB_USER:root}
+        password: ${DB_PWD:Fuchain@2020}
+  redis:
+    # 地址
+    host: 192.168.6.21
+    # 密码
+    password: Fuchain@2020
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.pms: DEBUG
+    com.fuchain: DEBUG
+    jdbc.audit: OFF
+    jdbc.sqlonly: OFF
+    jdbc.sqltiming: OFF
+    jdbc.connection: OFF
+    jdbc.resultset: ERROR
+    log4jdbc.log4j2: WARN
+    jdbc.resultsettable: OFF
+    com.pms.ent.repository: DEBUG
+    com.pms.common.repository: INFO
+    springfox.documentation: ERROR
+    com.fuchain.system.repository: INFO
+    com.alibaba.druid.filter.stat.StatFilter: OFF
+    org.apache.shiro.mgt.DefaultSecurityManager: ERROR
+    org.apache.shiro.mgt.AbstractRememberMeManager: ERROR
+    com.artofsolving.jodconverter.openoffice.connection: ERROR
+    org.springframework.web.servlet.mvc.method.annotation: ERROR
+    org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: ERROR
+    org.springframework.data.repository.config.RepositoryConfigurationDelegate: WARN
+    org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver: ERROR
+    org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider: ERROR
